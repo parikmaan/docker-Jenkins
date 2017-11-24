@@ -8,4 +8,4 @@ Jenkins using docker
     docker build -t jenkins-docker .
 3. Run following command to start Jenkins:
 
-    docker run -p 8080:8080 -p 50000:50000 -v /var/jenkins_home:/var/jenkins_home -d --name jenkins jenkins/jenkins
+    docker run -p 8080:8080 -p 50000:50000 -v /var/jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock -d --name docker-jenkins docker-jenkins
