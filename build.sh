@@ -1,1 +1,1 @@
-docker build -t jenkins-docker .
+docker build -t docker-jenkins .
