@@ -1,6 +1,6 @@
 FROM jenkins/jenkins
 
-MAINTAINER <Parik Maan> parik.maan@outlook.com
+MAINTAINER <Parik Maan>
 
 USER root
 
