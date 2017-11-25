@@ -1,4 +1,7 @@
 FROM jenkins/jenkins
+
+MAINTAINER <Parik Maan> parik.maan@outlook.com
+
 USER root
 
 RUN mkdir -p /tmp/download && \
