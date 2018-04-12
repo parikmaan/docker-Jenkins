@@ -2,6 +2,9 @@ FROM jenkins/jenkins
 
 MAINTAINER <Parik Maan>
 
+ENV JENKINS_OPTS --httpPort=10000
+EXPOSE 10000
+
 USER root
 
 RUN mkdir -p /tmp/download && \
