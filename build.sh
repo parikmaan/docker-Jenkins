@@ -1,1 +1,0 @@
-docker build -t docker-jenkins . --force-rm=true
