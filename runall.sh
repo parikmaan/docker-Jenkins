@@ -22,17 +22,24 @@ docker build --no-cache -t myjenkins .
 
 docker run  -p ${sonar_port}:9000 --rm --name mysonar sonarqube:6.3.1 &
 
-IP=$(ifconfig en0 | awk '/ *inet /{print $2}')
+#IP=$(ifconfig en0 | awk '/ *inet /{print $2}')
+IP="10.0.0.225"
 
-
-echo "Host ip: ${IP}"
+#echo "Host ip: ${IP}"
 
 if [ ! -d m2deps ]; then
     mkdir m2deps
 fi
 
-docker run -p ${jenkins_port}:8080  -v /${pwd}/jenkins_home:/var/jenkins_home -v /${pwd}/downloads:/var/jenkins_home/downloads \
-    -v /${pwd}/jobs:/var/jenkins_home/jobs/ \
-    -v /${pwd}/m2deps:/var/jenkins_home/.m2/repository/ --rm --name myjenkins \
-    -e SONARQUBE_HOST=http://${IP}:${sonar_port} \
-    myjenkins:latest
+docker run -p ${jenkins_port}:8080 \
+	-v /`pwd`/downloads:/var/jenkins_home/downloads \
+    -v /`pwd`/jobs:/var/jenkins_home/jobs/ \
+    -v /`pwd`/m2deps:/var/jenkins_home/.m2/repository/ \
+	--rm --name myjenkins \
+	-e SONARQUBE_HOST=http://${IP}:${sonar_port} \
+	myjenkins:latest
+
+#docker run -p ${jenkins_port}:8080 -v /`pwd`/downloads:/var/jenkins_home/downloads \
+#    -v /`pwd`/jobs:/var/jenkins_home/jobs/ \
+#    -v /`pwd`/m2deps:/var/jenkins_home/.m2/repository/ --rm --name myjenkins \
+#    myjenkins:latest
