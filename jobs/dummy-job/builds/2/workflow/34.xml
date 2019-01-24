@@ -1,0 +1,29 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<Tag plugin="workflow-support@3.1">
+  <node class="cps.n.StepAtomNode" plugin="workflow-cps@2.62">
+    <parentIds>
+      <string>33</string>
+    </parentIds>
+    <id>34</id>
+    <descriptorId>org.jenkinsci.plugins.pipeline.modeldefinition.steps.EnvVarsForToolStep</descriptorId>
+  </node>
+  <actions>
+    <cps.a.ArgumentsActionImpl plugin="workflow-cps@2.62">
+      <arguments>
+        <entry>
+          <string>toolId</string>
+          <string>hudson.tasks.Maven$MavenInstallation</string>
+        </entry>
+        <entry>
+          <string>toolVersion</string>
+          <string>M3.6</string>
+        </entry>
+      </arguments>
+      <isUnmodifiedBySanitization>true</isUnmodifiedBySanitization>
+    </cps.a.ArgumentsActionImpl>
+    <wf.a.TimingAction plugin="workflow-api@2.33">
+      <startTime>1548291754342</startTime>
+    </wf.a.TimingAction>
+    <s.a.LogStorageAction/>
+  </actions>
+</Tag>
