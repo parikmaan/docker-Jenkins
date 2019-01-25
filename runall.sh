@@ -3,11 +3,19 @@
 #check your ports are free
 #sudo lsof -i tcp:10000 &&  sudo lsof -i tcp:10001
 
-jenkins_port=10000
-sonar_port=10001
+#IP=$(ifconfig en0 | awk '/ *inet /{print $2}')
+IP="10.0.0.225"
+#echo "Host ip: ${IP}"
 
-docker pull jenkins:lts
-docker pull sonarqube:6.3.1
+# GET PORT IN USE
+function getContainerPort() {
+    echo $(docker port $1 | sed 's/.*://g')
+}
+
+# PULL DOCKER IMAGES
+docker pull jenkins/jenkins:lts
+docker pull sonarqube:lts
+docker pull docker.bintray.io/jfrog/artifactory-oss:6.7.0
 
 if [ ! -d downloads ]; then
     mkdir downloads
@@ -16,30 +24,35 @@ if [ ! -d downloads ]; then
     curl -o downloads/apache-maven-3.5.2-bin.tar.gz http://mirror.vorboss.net/apache/maven/maven-3/3.5.2/binaries/apache-maven-3.5.2-bin.tar.gz
 fi
 
-docker stop mysonar myjenkins
-
-docker build --no-cache -t myjenkins .
-
-docker run  -p ${sonar_port}:9000 --rm --name mysonar sonarqube:6.3.1 &
-
-#IP=$(ifconfig en0 | awk '/ *inet /{print $2}')
-IP="10.0.0.225"
-
-#echo "Host ip: ${IP}"
-
 if [ ! -d m2deps ]; then
     mkdir m2deps
 fi
 
-docker run -p ${jenkins_port}:8080 \
+# STOP DOCKER CONTAINERS
+docker stop mysonar myjenkins artifactory 2>/dev/null
+
+docker build --no-cache -t myjenkins .
+
+# START SONAR
+docker run -d --rm -p 9000 --name mysonar sonarqube:lts
+
+# START JFROG
+docker run -d --rm -p 8081 --name artifactory  docker.bintray.io/jfrog/artifactory-oss:6.7.0
+
+# GET PORTS
+sonar_port=$(getContainerPort mysonar)
+artifactory_port=$(getContainerPort artifactory)
+
+docker run -d -p 8080 --rm --name myjenkins \
 	-v /`pwd`/downloads:/var/jenkins_home/downloads \
     -v /`pwd`/jobs:/var/jenkins_home/jobs/ \
     -v /`pwd`/m2deps:/var/jenkins_home/.m2/repository/ \
-	--rm --name myjenkins \
-	-e SONARQUBE_HOST=http://${IP}:${sonar_port} \
-	myjenkins:latest
+    -e SONARQUBE_HOST=http://${IP}:${sonar_port} \
+    -e ARTIFACTORY_URL=http://${IP}:${artifactory_port}/artifactory/example-repo-local \
+    myjenkins:latest
 
-#docker run -p ${jenkins_port}:8080 -v /`pwd`/downloads:/var/jenkins_home/downloads \
-#    -v /`pwd`/jobs:/var/jenkins_home/jobs/ \
-#    -v /`pwd`/m2deps:/var/jenkins_home/.m2/repository/ --rm --name myjenkins \
-#    myjenkins:latest
+echo "---------------------------------------------------------"
+echo "Sonarqube is running at ${IP}:${sonar_port}"
+echo "Artifactory is running at ${IP}:${artifactory_port}"
+echo "Jenkins is running at ${IP}:$(getContainerPort myjenkins)"
+echo "---------------------------------------------------------"

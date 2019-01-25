@@ -70,3 +70,4 @@ pipeline-graph-analysis
 workflow-multibranch
 workflow-scm-step
 cobertura
+config-file-provider
