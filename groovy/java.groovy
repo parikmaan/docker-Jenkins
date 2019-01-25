@@ -19,5 +19,6 @@ javaTools.each { javaTool ->
     installations.add(jdk)
 
 }
+
 descriptor.setInstallations(installations.toArray(new JDK[installations.size()]))
 descriptor.save()
