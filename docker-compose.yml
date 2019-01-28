@@ -18,6 +18,8 @@ services:
      - "./m2deps:/var/jenkins_home/.m2/repository/"
      - "./downloads:/var/jenkins_home/downloads"
     secrets:
+     - jenkinsUser
+     - jenkinsPassword
      - artifactoryPassword
   mysonar:
     image: sonarqube:lts
@@ -29,9 +31,9 @@ services:
      - "8081"
 
 secrets:
+  jenkinsUser:
+    file: ./secrets/jenkinsUsername
+  jenkinsPassword:
+    file: ./secrets/jenkinsPassword
   artifactoryPassword:
     file: ./secrets/artifactoryPassword
-  jenkins-user:
-    file: ./secrets/jenkinsUsername
-  jenkins-pass:
-    file: ./secrets/jenkinsPassword
