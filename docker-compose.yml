@@ -31,3 +31,7 @@ services:
 secrets:
   artifactoryPassword:
     file: ./secrets/artifactoryPassword
+  jenkins-user:
+    file: ./secrets/jenkinsUsername
+  jenkins-pass:
+    file: ./secrets/jenkinsPassword

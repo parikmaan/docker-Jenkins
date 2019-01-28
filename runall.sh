@@ -7,6 +7,8 @@
 docker-compose down
 
 #update with actual password
+echo "admin" > ./secrets/jenkinsUsername
+echo "password" > ./secrets/jenkinsPassword
 echo "password" > ./secrets/artifactoryPassword
 
 #update older jenkins image, make sure it doesnt use cache
