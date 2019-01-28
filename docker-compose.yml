@@ -18,7 +18,7 @@ services:
      - "./m2deps:/var/jenkins_home/.m2/repository/"
      - "./downloads:/var/jenkins_home/downloads"
     secrets:
-     - jenkinsUser
+     - jenkinsUsername
      - jenkinsPassword
      - artifactoryPassword
   mysonar:
@@ -31,7 +31,7 @@ services:
      - "8081"
 
 secrets:
-  jenkinsUser:
+  jenkinsUsername:
     file: ./secrets/jenkinsUsername
   jenkinsPassword:
     file: ./secrets/jenkinsPassword
