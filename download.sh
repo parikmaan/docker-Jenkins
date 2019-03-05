@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-#Clean anything with same name to get rid of clashes
+# Stop
 docker-compose down
 
 docker pull jenkins/jenkins:lts
 docker pull sonarqube:lts
-docker pull docker.bintray.io/jfrog/artifactory-oss:6.7.0
+#docker pull docker.bintray.io/jfrog/artifactory-oss:6.7.0
 
 if [ ! -d downloads ]; then
     mkdir downloads

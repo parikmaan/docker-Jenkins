@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
 
-#Get needed stuff 1st
+# Download Images
 ./download.sh
 
-#Clean anything with same name to get rid of clashes
+# Stop
 docker-compose down
 
-#update with actual password
+# Update with actual password
 echo "admin" > ./secrets/jenkinsUsername
 echo "password" > ./secrets/jenkinsPassword
 echo "password" > ./secrets/artifactoryPassword
 
-#update older jenkins image, make sure it doesnt use cache
+# Build
 docker-compose build --no-cache
 
-#run all
+# Start
 docker-compose up -d
