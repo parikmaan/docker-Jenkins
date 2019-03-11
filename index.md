@@ -1,37 +1,33 @@
-## Welcome to GitHub Pages
+## Dockerized Jenkins [Ubuntu]
 
-You can use the [editor on GitHub](https://github.com/parikmaan/docker-jenkins/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
+Simple setup for running Jenkins using Docker on Ubuntu. Jenkins in the repository is configured with pipeline and docker and other plugins. Combined all this from various sources on internet.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### Goals
 
-### Markdown
+- Jenkins running on Docker.
+- Use Jenkins to build Docker images. (Utilize Docker on host machine)
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Prerequisites
 
-```markdown
-Syntax highlighted code block
+1. Ubuntu installed on your system
 
-# Header 1
-## Header 2
-### Header 3
+### Steps
 
-- Bulleted
-- List
+1. Clone repository.
+1. Download following JDKs from Oracle and copy them to downloads directory:
+    1. jdk-8u201-linux-x64.tar.gz
+    1. jdk-7u80-linux-x64.tar.gz
+1. Run runall.sh to start Jenkins.
+1. Login to Jenkins. [Credentials - admin/password]
 
-1. Numbered
-2. List
+### Configuration
 
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/parikmaan/docker-jenkins/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+1. To upgrade or add additional JDKs change javaTools accordingly in groovy/java.groovy.
+1. To upgrade or add additional maven versions change mavenToool accordingly in groovy/maven.groovy.
+1. Update groovy/mvn_settings.groovy to provide custom maven settings.
+1. Update Jenkins security in runall.sh:
+    ```
+    # Update with actual password
+    echo "admin" > ./secrets/jenkinsUsername
+    echo "password" > ./secrets/jenkinsPassword
+    ```
